@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
@@ -7,6 +8,7 @@ public class UiHandler : MonoBehaviour
     [SerializeField] private GameObject _menuPanel;
     [SerializeField] private GameObject _gamePanel;
     [SerializeField] private GameObject _gameOverPanel;
+    [SerializeField] private GameObject _tutorialGameObject;
     [SerializeField] private TextMeshProUGUI _menuScoreText;
     [SerializeField] private TextMeshProUGUI _gameScoreText;
     [SerializeField] private TextMeshProUGUI _gameOverScoreText;
@@ -44,6 +46,14 @@ public class UiHandler : MonoBehaviour
         GameManager.Instance.IsGameStarted = true;
         _menuPanel.SetActive(false);
         _gamePanel.SetActive(true);
+        StartCoroutine(ShowTutorial());
+    }
+
+    private IEnumerator ShowTutorial()
+    {
+        _tutorialGameObject.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        _tutorialGameObject.SetActive(false);
     }
     public void GameOver(int score, int highScore,int coins)
     {
@@ -68,5 +78,11 @@ public class UiHandler : MonoBehaviour
         _gamePanel.SetActive(false);
         _menuPanel.SetActive(true);
         GameManager.Instance.ResetGame();
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quitting");
+        Application.Quit();
     }
 }
